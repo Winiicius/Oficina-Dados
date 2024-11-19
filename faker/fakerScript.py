@@ -2,33 +2,15 @@ from faker import Faker
 import random
 import unicodedata
 import datetime
+import csv
+import psycopg2
 
 faker = Faker()
 fakerBR = Faker("pt_BR")
 
-clientesEstrutura = [
-    {"id":"", "id_endereco":"", "nome":"", "sobrenome":"", "dataNascimento":"", "celular":"", "email":""}
-]
-produtosEstrutura = [
-    {"id":"", "nome":"", "preco":"", "categoria":""}
-]
-enderecosEstrutura = [
-    {"id":"", "cidade":"", "numero":"", "bairro":"", "rua":"", "uf":""}
-]
-vendedoresEstrutura = [
-    {"id":int, "nome":str, "email":str, "dataAdmissao":datetime, "cargo":str}
-]
-vendasEstrutura = [
-    {"id":"", "id_vendedor":"", "id_cliente":"", "preco_total":"", "data_venda":"", "comissao":""}
-]
-itemVendaEstrutura = [
-    {"id":"", "id_venda":"", "id_produto":"", "preco_produto":"", "quantidade":""}
-]
-
 clientes = []
 enderecos = []
 vendedores = []
-vendedores.append(vendedoresEstrutura)
 produtos = []
 vendas = []
 itensVendas = []
@@ -102,7 +84,7 @@ def showClients(clientes):
 
 def criarVendedores() -> list: # criar vendedores
     print("Criando vendedores...")
-    for i in range(80000, 80011): # Definindo o range do id
+    for i in range(80000, 81000): # Definindo o range do id
         nomeCompleto = fakerBR.name().split(" ") # divido o nome em um array
         sobrenomeArray = fakerBR.last_name().split(" ") # uso o faker para gerar um sobrenome
         sobrenome = sobrenomeArray[0] if len(sobrenomeArray) == 1 else sobrenomeArray[1] # se sobrenome for composto(ex: de sá, dos anjos) retiro o prefixo e guardo o resto do nome(sá, anjos)
@@ -131,11 +113,8 @@ def criarProdutos():
     ]
     return produtos
 
-# def criarEnderecos():
-#     pass
-
 def criarVendas():
-    for i in range(100000, 100011):
+    for i in range(100000, 101000):
         preco_total:float = 0
         for x in range(1, random.randint(2, 4)): 
             item = criarItemVenda(i)
@@ -150,7 +129,8 @@ def criarVendas():
                 "data_venda":faker.date_of_birth(minimum_age=0, maximum_age=15).strftime('%Y-%m-%d'),
                 "comissao":round( preco_total * 0.04, 2)
                 }
-        print(venda)
+        vendas.append(venda)
+    return vendas
 
 def criarItemVenda(id:int):
     produto = random.choice(produtos) # ajustar quantidade através do preço
@@ -161,7 +141,7 @@ def criarItemVenda(id:int):
          "preco_produto":produto.get("preco"),
          "quantidade":random.randint(1, 5)}
     ]
-    vendas.append(item_venda)
+    itensVendas.append(item_venda)
     return item_venda
     
 
@@ -170,5 +150,49 @@ vendedores = criarVendedores()
 produtos = criarProdutos()
 vendas = criarVendas()
 
-for i in produtos:
-    print(i)
+
+arquivo_csv = "teste.csv"
+with open(arquivo_csv, mode="w", newline="", encoding="utf-8") as arquivo:
+    # Criar o objeto writer
+    escritor = csv.DictWriter(arquivo, fieldnames=vendedores[0].keys())
+    
+    # Escrever o cabeçalho
+    escritor.writeheader()
+    
+    # Escrever os dados
+    escritor.writerows(vendedores)
+
+
+def preencherNoBanco():
+
+
+# Conexão com o banco de dados
+    conexao = psycopg2.connect(
+        dbname="teste",
+        user="postgres",
+        password="admin",
+        host="localhost",
+        port="5432"
+    )
+    cursor = conexao.cursor()
+
+    # Caminho para o arquivo CSV
+    arquivo_csv = 'C:\\Users\\winic\\Desktop\\Projetos\\Oficina-Dados\\teste.csv'
+
+    # Comando COPY
+    comando = f"""
+    COPY clientes (id, nome, email)
+    FROM '{arquivo_csv}'
+    WITH (FORMAT csv, HEADER true, DELIMITER ',');
+    """
+
+    # Executa o comando
+    cursor.execute(comando)
+    conexao.commit()
+
+    # Fecha a conexão
+    cursor.close()
+    conexao.close()
+
+    print("Arquivo CSV importado com sucesso!")
+preencherNoBanco();
