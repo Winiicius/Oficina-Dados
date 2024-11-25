@@ -1,9 +1,8 @@
 from faker import Faker
 import random
 import unicodedata
-import datetime
 import csv
-import psycopg2
+import time
 
 faker = Faker()
 fakerBR = Faker("pt_BR")
@@ -33,6 +32,8 @@ def getDominioEmail() -> str:
             "@gmx.com"
     ]
     dominio_aleatorio = random.choice(emails)
+    if (random.random() <= 0.02):
+        dominio_aleatorio = "@emailinvalido.com"
     return dominio_aleatorio;
 
 def getCargo():
@@ -50,10 +51,8 @@ def remover_acentos(texto):
     texto_sem_acento = ''.join(c for c in texto_normalizado if unicodedata.category(c) != 'Mn')
     return texto_sem_acento
 
-def criarClientesEnderecos():
-    print("Criando Clientes e seus endereços...")
-    for i in range(30000, 30011):
-        endereco = {
+def criarEndereco():
+    endereco = {
             "id":random.randint(1, 100000),
             "cidade":fakerBR.city(),
             "numero":fakerBR.building_number(),
@@ -61,11 +60,18 @@ def criarClientesEnderecos():
             "rua":fakerBR.street_name(),
             "uf":fakerBR.estado_sigla()
         }
+    enderecos.append(endereco)
+    return endereco
 
+def criarClientesEnderecos():
+    print("Criando Clientes e seus endereços . . .")
+    for i in range(30000, 30011):
+        id_cliente = i if random.random() > 0.01 else "null";
+        endereco = criarEndereco()
         nome = faker.first_name()
         sobrenome = faker.last_name()
         cliente = {
-            "id":i,
+            "id":id_cliente,
             "id_endereco":endereco.get("id"),
             "nome":nome,
             "sobrenome":sobrenome,
@@ -74,8 +80,12 @@ def criarClientesEnderecos():
             "email":f"{remover_acentos(nome.lower())}{remover_acentos(sobrenome.lower())}{getDominioEmail()}" # Formata o e-mail com nome e sobrenome
         }
         clientes.append(cliente)
-        enderecos.append(endereco)
+        if (random.random() < 0.01):
+            clientes.append(cliente) 
+    time.sleep(2)
     return clientes, enderecos
+
+
 
 def showClients(clientes):
     for cliente in clientes:
@@ -83,8 +93,8 @@ def showClients(clientes):
 
 
 def criarVendedores() -> list: # criar vendedores
-    print("Criando vendedores...")
-    for i in range(80000, 81000): # Definindo o range do id
+    print("Criando vendedores . . .")
+    for i in range(80000, 80010): # Definindo o range do id
         nomeCompleto = fakerBR.name().split(" ") # divido o nome em um array
         sobrenomeArray = fakerBR.last_name().split(" ") # uso o faker para gerar um sobrenome
         sobrenome = sobrenomeArray[0] if len(sobrenomeArray) == 1 else sobrenomeArray[1] # se sobrenome for composto(ex: de sá, dos anjos) retiro o prefixo e guardo o resto do nome(sá, anjos)
@@ -99,10 +109,12 @@ def criarVendedores() -> list: # criar vendedores
                     "cargo":getCargo()
                 }
         vendedores.append(vendedor) # adiciona o vendedor na lista de vendedores
+    time.sleep(2)
     return vendedores
 
 
-def criarProdutos():
+def criarProdutos(): # não adicionar produtos com valores muito caros!!! entre 0 e 3000/5000
+    print("Criando os Produtos . . .")
     produtos = [
         {"id":303, "nome":"Violão Start Giannini", "preco":300, "categoria":"Música"},
         {"id":34, "nome":"Guaravita", "preco":5.50, "categoria":"Refrigerante"},
@@ -111,88 +123,93 @@ def criarProdutos():
         {"id":3, "nome":"Kwid", "preco":30000, "categoria":"Automóvel"},
         {"id":3032, "nome":"Sandália", "preco":50, "categoria":"Roupa"},
     ]
+    time.sleep(2)
     return produtos
 
 def criarVendas():
-    for i in range(100000, 101000):
+    print("Criando vendas e itens venda . . .")
+    for i in range(100000, 100010):
         preco_total:float = 0
+        # se id == None
+        id_vendedor = random.choice(vendedores)["id"]
+        # se o email == invalido, não asssocialo a venda, excluir endereço atribuído
+        cliente = random.choice(clientes)
+        id_cliente = cliente["id"]
+        fake = False
+        if(id_cliente == "null" or id_vendedor == "null"): # or "@invalidemail.com" in email_cliente ): # vou renomear os emails
+            fake = True
+
         for x in range(1, random.randint(2, 4)): 
             item = criarItemVenda(i)
-            preco_total += (float)(item[0].get("preco_produto"))
+            preco_total += (item.get("preco_produto"))
 
-        id_vendedor = random.choice(vendedores)["id"]
-        id_cliente = random.choice(clientes)["id"]
         venda = {"id":i,
-                "id_vendedor":id_vendedor,
-                "id_cliente":id_cliente,
+                "id_vendedor":id_vendedor if fake == False else random.randint(1, 20000),
+                "id_cliente":id_cliente if fake == False else random.randint(1, 20000),
                 "preco_total":preco_total,
                 "data_venda":faker.date_of_birth(minimum_age=0, maximum_age=15).strftime('%Y-%m-%d'),
                 "comissao":round( preco_total * 0.04, 2)
                 }
         vendas.append(venda)
+    time.sleep(2)
     return vendas
 
 def criarItemVenda(id:int):
     produto = random.choice(produtos) # ajustar quantidade através do preço
-    item_venda = [
-        {"id":random.randint(0, 999999999),
+    item_venda = {
+        "id":random.randint(0, 99999999999999),
          "id_venda":id,
          "id_produto":produto.get("id"),
          "preco_produto":produto.get("preco"),
-         "quantidade":random.randint(1, 5)}
-    ]
+         "quantidade":random.randint(1, 5)
+    }
     itensVendas.append(item_venda)
     return item_venda
     
 
+produtos = criarProdutos()
 clientes, enderecos = criarClientesEnderecos()
 vendedores = criarVendedores()
-produtos = criarProdutos()
 vendas = criarVendas()
+print("Base de Dados Criada!!!!!")
 
 
-arquivo_csv = "teste.csv"
-with open(arquivo_csv, mode="w", newline="", encoding="utf-8") as arquivo:
-    # Criar o objeto writer
-    escritor = csv.DictWriter(arquivo, fieldnames=vendedores[0].keys())
-    
-    # Escrever o cabeçalho
-    escritor.writeheader()
-    
-    # Escrever os dados
-    escritor.writerows(vendedores)
+def criar_arquivo_csv(nome_arquivo, lista_objeto):
+    with open("tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="utf-8") as arquivo:
+        # Criar o objeto writer
+        escritor = csv.DictWriter(arquivo, fieldnames=lista_objeto[0].keys())
+        # Escrever o cabeçalho
+        escritor.writeheader()
+        # Escrever os dados
+        escritor.writerows(lista_objeto)
+
+arquivos = [{
+        "nome_arquivo":"produtos.csv",
+        "lista_objeto":produtos
+        },
+        {
+        "nome_arquivo":"enderecos.csv",
+        "lista_objeto":enderecos
+        },
+        {
+        "nome_arquivo":"clientes.csv",
+        "lista_objeto":clientes
+        },
+        {
+        "nome_arquivo":"vendedores.csv",
+        "lista_objeto":vendedores
+        },
+        {
+        "nome_arquivo":"vendas.csv",
+        "lista_objeto":vendas
+        },
+        {
+        "nome_arquivo":"itens_venda.csv",
+        "lista_objeto":itensVendas
+        },
+    ]
+
+for arquivo in arquivos:
+    criar_arquivo_csv(arquivo.get("nome_arquivo"), arquivo.get("lista_objeto"))
 
 
-def preencherNoBanco():
-
-
-# Conexão com o banco de dados
-    conexao = psycopg2.connect(
-        dbname="teste",
-        user="postgres",
-        password="admin",
-        host="localhost",
-        port="5432"
-    )
-    cursor = conexao.cursor()
-
-    # Caminho para o arquivo CSV
-    arquivo_csv = 'C:\\Users\\winic\\Desktop\\Projetos\\Oficina-Dados\\teste.csv'
-
-    # Comando COPY
-    comando = f"""
-    COPY clientes (id, nome, email)
-    FROM '{arquivo_csv}'
-    WITH (FORMAT csv, HEADER true, DELIMITER ',');
-    """
-
-    # Executa o comando
-    cursor.execute(comando)
-    conexao.commit()
-
-    # Fecha a conexão
-    cursor.close()
-    conexao.close()
-
-    print("Arquivo CSV importado com sucesso!")
-preencherNoBanco();
