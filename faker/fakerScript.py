@@ -53,7 +53,7 @@ def remover_acentos(texto):
 
 def criarEndereco():
     endereco = {
-            "id":random.randint(1, 100000),
+            "id":random.randint(1, 10000000000),
             "cidade":fakerBR.city(),
             "numero":fakerBR.building_number(),
             "bairro":fakerBR.bairro(),
@@ -65,8 +65,8 @@ def criarEndereco():
 
 def criarClientesEnderecos():
     print("Criando Clientes e seus endereços . . .")
-    for i in range(30000, 30011):
-        id_cliente = i if random.random() > 0.01 else "null";
+    for i in range(30000, 35001):
+        id_cliente = i # if random.random() > 0.01 else "null";
         endereco = criarEndereco()
         nome = faker.first_name()
         sobrenome = faker.last_name()
@@ -80,8 +80,8 @@ def criarClientesEnderecos():
             "email":f"{remover_acentos(nome.lower())}{remover_acentos(sobrenome.lower())}{getDominioEmail()}" # Formata o e-mail com nome e sobrenome
         }
         clientes.append(cliente)
-        if (random.random() < 0.01):
-            clientes.append(cliente) 
+        # if (random.random() < 0.01):
+        #     clientes.append(cliente)
     time.sleep(2)
     return clientes, enderecos
 
@@ -94,7 +94,7 @@ def showClients(clientes):
 
 def criarVendedores() -> list: # criar vendedores
     print("Criando vendedores . . .")
-    for i in range(80000, 80010): # Definindo o range do id
+    for i in range(80000, 82001): # Definindo o range do id
         nomeCompleto = fakerBR.name().split(" ") # divido o nome em um array
         sobrenomeArray = fakerBR.last_name().split(" ") # uso o faker para gerar um sobrenome
         sobrenome = sobrenomeArray[0] if len(sobrenomeArray) == 1 else sobrenomeArray[1] # se sobrenome for composto(ex: de sá, dos anjos) retiro o prefixo e guardo o resto do nome(sá, anjos)
@@ -128,7 +128,7 @@ def criarProdutos(): # não adicionar produtos com valores muito caros!!! entre 
 
 def criarVendas():
     print("Criando vendas e itens venda . . .")
-    for i in range(100000, 100010):
+    for i in range(100000, 110001):
         preco_total:float = 0
         # se id == None
         id_vendedor = random.choice(vendedores)["id"]
@@ -175,7 +175,7 @@ print("Base de Dados Criada!!!!!")
 
 
 def criar_arquivo_csv(nome_arquivo, lista_objeto):
-    with open("tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="utf-8") as arquivo:
+    with open("../tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="UTF-8") as arquivo:
         # Criar o objeto writer
         escritor = csv.DictWriter(arquivo, fieldnames=lista_objeto[0].keys())
         # Escrever o cabeçalho
@@ -183,7 +183,8 @@ def criar_arquivo_csv(nome_arquivo, lista_objeto):
         # Escrever os dados
         escritor.writerows(lista_objeto)
 
-arquivos = [{
+arquivos = [
+        {
         "nome_arquivo":"produtos.csv",
         "lista_objeto":produtos
         },
