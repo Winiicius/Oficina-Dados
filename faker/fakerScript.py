@@ -135,17 +135,17 @@ def criarVendas():
         # se o email == invalido, não asssocialo a venda, excluir endereço atribuído
         cliente = random.choice(clientes)
         id_cliente = cliente["id"]
-        fake = False
-        if(id_cliente == "null" or id_vendedor == "null"): # or "@invalidemail.com" in email_cliente ): # vou renomear os emails
-            fake = True
+        # fake = False
+        # if(id_cliente == "null" or id_vendedor == "null"): # or "@invalidemail.com" in email_cliente ): # vou renomear os emails
+        #     fake = True
 
         for x in range(1, random.randint(2, 4)): 
             item = criarItemVenda(i)
             preco_total += (item.get("preco_produto"))
 
         venda = {"id":i,
-                "id_vendedor":id_vendedor if fake == False else random.randint(1, 20000),
-                "id_cliente":id_cliente if fake == False else random.randint(1, 20000),
+                "id_vendedor":id_vendedor, # if fake == False else random.randint(1, 20000),
+                "id_cliente":id_cliente, # if fake == False else random.randint(1, 20000),
                 "preco_total":preco_total,
                 "data_venda":faker.date_of_birth(minimum_age=0, maximum_age=15).strftime('%Y-%m-%d'),
                 "comissao":round( preco_total * 0.04, 2)
