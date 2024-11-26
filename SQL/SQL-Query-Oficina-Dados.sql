@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS enderecos;
-DROP TABLE IF EXISTS clientes;
-DROP TABLE IF EXISTS vendas;
 DROP TABLE IF EXISTS itens_venda;
-DROP TABLE IF EXISTS vendedores;
+DROP TABLE IF EXISTS vendas;
 DROP TABLE IF EXISTS produtos;
+DROP TABLE IF EXISTS vendedores;
+DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS enderecos;
 
 CREATE TABLE enderecos (
     id bigint PRIMARY KEY,
@@ -62,6 +62,17 @@ CREATE TABLE itens_venda (
     CONSTRAINT fk_produto FOREIGN KEY (id_produto) REFERENCES produtos(id)
 );
 
+-- vendas por ano
+	SELECT 
+	    EXTRACT(YEAR FROM data_venda) AS ano,
+	    COUNT(*) AS numero_de_vendas
+	FROM 
+	    vendas
+	GROUP BY 
+	    ano
+	ORDER BY 
+	    ano;
+--
 
  
 SELECT * FROM enderecos;
@@ -82,10 +93,10 @@ SET client_encoding TO 'UTF-8' -- Rodar esse código antes de prosseguir
 
 \COPY enderecos(id, cidade, numero, bairro, rua, uf) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\enderecos.csv' DELIMITER ',' CSV HEADER;
 \COPY clientes(id,id_endereco,nome,sobrenome,dataNascimento,celular,email) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\clientes.csv' DELIMITER ',' CSV HEADER;
-\COPY vendas(id,id_vendedor,id_cliente,preco_total,data_venda,comissao) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\vendas.csv' DELIMITER ',' CSV HEADER;
-\COPY itens_venda(id,id_venda,id_produto,preco_produto,quantidade) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\itens_venda.csv' DELIMITER ',' CSV HEADER;
 \COPY vendedores(id,nome,sobrenome,email,dataAdmissao,cargo) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\vendedores.csv' DELIMITER ',' CSV HEADER;
 \COPY produtos(id,nome,preco,categoria) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\produtos.csv' DELIMITER ',' CSV HEADER;
+\COPY vendas(id,id_vendedor,id_cliente,preco_total,data_venda,comissao) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\vendas.csv' DELIMITER ',' CSV HEADER;
+\COPY itens_venda(id,id_venda,id_produto,preco_produto,quantidade) FROM 'C:\Users\202115020017\IdeaProjects\oficina-dados\Oficina-Dados\tabelasResultadoFaker\itens_venda.csv' DELIMITER ',' CSV HEADER;
 
 
 
