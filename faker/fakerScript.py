@@ -53,7 +53,7 @@ def remover_acentos(texto):
 
 def criarEndereco():
     endereco = {
-            "id":random.randint(1, 10000000000),
+            "id":random.randint(1, 10000000000), # garantir que o id não se repita
             "cidade":fakerBR.city(),
             "numero":fakerBR.building_number(),
             "bairro":fakerBR.bairro(),
@@ -66,31 +66,24 @@ def criarEndereco():
 def criarClientesEnderecos():
     print("Criando Clientes e seus endereços . . .")
     for i in range(30000, 35001):
-        id_cliente = i # if random.random() > 0.01 else "null";
+        id_cliente = i if random.random() > 0.01 else "null";
         endereco = criarEndereco()
-        nome = faker.first_name()
+        nome = faker.first_name() 
         sobrenome = faker.last_name()
         cliente = {
             "id":id_cliente,
             "id_endereco":endereco.get("id"),
             "nome":nome,
             "sobrenome":sobrenome,
-            "dataNascimento": faker.date_of_birth(minimum_age=18, maximum_age=80).strftime('%d-%m-%Y'),  # Formata a data
+            "data_nascimento": faker.date_of_birth(minimum_age=18, maximum_age=80).strftime('%d-%m-%Y'),  # Formata a data
             "celular": fakerBR.cellphone_number(),
             "email":f"{remover_acentos(nome.lower())}{remover_acentos(sobrenome.lower())}{getDominioEmail()}" # Formata o e-mail com nome e sobrenome
         }
         clientes.append(cliente)
-        # if (random.random() < 0.01):
-        #     clientes.append(cliente)
+        if (random.random() < 0.01):
+            clientes.append(cliente)
     time.sleep(2)
     return clientes, enderecos
-
-
-
-def showClients(clientes):
-    for cliente in clientes:
-        print(f'\n"id":{cliente.get("id")},\n"id_endereco":{cliente.get("id_endereco")},\n"nome":{cliente.get("nome")},\n"sobrenome":{cliente.get("sobrenome")},\n"dataNascimento":{cliente.get("dataNascimento")},\n"celular":{cliente.get("celular")},\n"email":{cliente.get("email")}')
-
 
 def criarVendedores() -> list: # criar vendedores
     print("Criando vendedores . . .")
@@ -101,11 +94,11 @@ def criarVendedores() -> list: # criar vendedores
         nome = nomeCompleto[0] + " " + nomeCompleto[1] if len(nomeCompleto) <= 2 else nomeCompleto[1] + " " + nomeCompleto[2] # As vezes os nome vem com prefixo(ex: sr. sra., etc) esse código serve pra evitar isso 
         
         # Criando corpo da entidade vendedor
-        vendedor = {"id":i,
+        vendedor = {"id": i if random.random() > 0.01 else "null",
                     "nome":nome,
                     "sobrenome":sobrenome,
                     "email":f"{remover_acentos(nomeCompleto[1].lower())}{remover_acentos(sobrenome.lower())}@nomeEmpresa.com",
-                    "dataAdmissao":faker.date_of_birth(minimum_age=0, maximum_age=20).strftime('%Y-%m-%d'), # gera uma data entre 0 e 20 anos atrás 
+                    "data_admissao":faker.date_of_birth(minimum_age=0, maximum_age=20).strftime('%Y-%m-%d'), # gera uma data entre 0 e 20 anos atrás 
                     "cargo":getCargo()
                 }
         vendedores.append(vendedor) # adiciona o vendedor na lista de vendedores
@@ -121,7 +114,8 @@ def criarProdutos(): # não adicionar produtos com valores muito caros!!! entre 
         {"id":398, "nome":"Piano", "preco":10000, "categoria":"Música"},
         {"id":234, "nome":"Playstation 5", "preco":3000, "categoria":"Entretenimento"},
         {"id":3, "nome":"Kwid", "preco":30000, "categoria":"Automóvel"},
-        {"id":3032, "nome":"Sandália", "preco":50, "categoria":"Roupa"},
+        {"id":3032, "nome":"Sandália", "preco":50, "categoria":"Vestimenta"},
+        
     ]
     time.sleep(2)
     return produtos
@@ -135,17 +129,18 @@ def criarVendas():
         # se o email == invalido, não asssocialo a venda, excluir endereço atribuído
         cliente = random.choice(clientes)
         id_cliente = cliente["id"]
-        # fake = False
-        # if(id_cliente == "null" or id_vendedor == "null"): # or "@invalidemail.com" in email_cliente ): # vou renomear os emails
-        #     fake = True
+        fake = False
+
+        if(id_cliente == "null" or id_vendedor == "null"): # or "@invalidemail.com" in email_cliente ): # vou renomear os emails
+            fake = True
 
         for x in range(1, random.randint(2, 4)): 
             item = criarItemVenda(i)
             preco_total += (item.get("preco_produto"))
 
         venda = {"id":i,
-                "id_vendedor":id_vendedor, # if fake == False else random.randint(1, 20000),
-                "id_cliente":id_cliente, # if fake == False else random.randint(1, 20000),
+                "id_vendedor":id_vendedor if fake == False else random.randint(1, 20000),
+                "id_cliente":id_cliente if fake == False else random.randint(1, 20000),
                 "preco_total":preco_total,
                 "data_venda":faker.date_of_birth(minimum_age=0, maximum_age=15).strftime('%Y-%m-%d'),
                 "comissao":round( preco_total * 0.04, 2)
@@ -175,12 +170,13 @@ print("Base de Dados Criada!!!!!")
 
 
 def criar_arquivo_csv(nome_arquivo, lista_objeto):
-    with open("../tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="UTF-8") as arquivo:
+    with open("tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="UTF-8") as arquivo: # intelliJ -> ../tabelasResultadoFaker/
         # Criar o objeto writer
         escritor = csv.DictWriter(arquivo, fieldnames=lista_objeto[0].keys())
         # Escrever o cabeçalho
         escritor.writeheader()
         # Escrever os dados
+        # lista_embaralhada = random.shuffle(lista_objeto[1:]) # checar
         escritor.writerows(lista_objeto)
 
 arquivos = [
