@@ -11,8 +11,8 @@ clientes = []
 enderecos = []
 vendedores = []
 produtos = []
-vendas = []
-itensVendas = []
+pedidos = []
+itensPedidos = []
 
 def getDominioEmail() -> str:
     emails = ["@gmail.com",
@@ -75,7 +75,7 @@ def criarClientesEnderecos():
             "id_endereco":endereco.get("id"),
             "nome":nome,
             "sobrenome":sobrenome,
-            "data_nascimento": faker.date_of_birth(minimum_age=18, maximum_age=80).strftime('%d-%m-%Y'),  # Formata a data
+            "data_nascimento": faker.date_of_birth(minimum_age=18, maximum_age=80).strftime('%Y-%m-%d'),  # Formata a data
             "celular": fakerBR.cellphone_number(),
             "email":f"{remover_acentos(nome.lower())}{remover_acentos(sobrenome.lower())}{getDominioEmail()}" # Formata o e-mail com nome e sobrenome
         }
@@ -120,13 +120,13 @@ def criarProdutos(): # não adicionar produtos com valores muito caros!!! entre 
     time.sleep(2)
     return produtos
 
-def criarVendas():
-    print("Criando vendas e itens venda . . .")
+def criarPedidos():
+    print("Criando pedidos e itens pedidos . . .")
     for i in range(100000, 110001):
         preco_total:float = 0
         # se id == None
         id_vendedor = random.choice(vendedores)["id"]
-        # se o email == invalido, não asssocialo a venda, excluir endereço atribuído
+        # se o email == invalido, não asssocialo a pedido, excluir endereço atribuído
         cliente = random.choice(clientes)
         id_cliente = cliente["id"]
         fake = False
@@ -135,37 +135,37 @@ def criarVendas():
             fake = True
 
         for x in range(1, random.randint(2, 4)): 
-            item = criarItemVenda(i)
+            item = criarItemPedido(i)
             preco_total += (item.get("preco_produto"))
 
-        venda = {"id":i,
+        pedido = {"id":i,
                 "id_vendedor":id_vendedor if fake == False else random.randint(1, 20000),
                 "id_cliente":id_cliente if fake == False else random.randint(1, 20000),
                 "preco_total":preco_total,
-                "data_venda":faker.date_of_birth(minimum_age=0, maximum_age=15).strftime('%Y-%m-%d'),
+                "data_pedido":faker.date_of_birth(minimum_age=0, maximum_age=15).strftime('%Y-%m-%d'),
                 "comissao":round( preco_total * 0.04, 2)
                 }
-        vendas.append(venda)
+        pedidos.append(pedido)
     time.sleep(2)
-    return vendas
+    return pedidos
 
-def criarItemVenda(id:int):
+def criarItemPedido(id:int):
     produto = random.choice(produtos) # ajustar quantidade através do preço
-    item_venda = {
+    item_pedido = {
         "id":random.randint(0, 99999999999999),
-         "id_venda":id,
+         "id_pedido":id,
          "id_produto":produto.get("id"),
          "preco_produto":produto.get("preco"),
          "quantidade":random.randint(1, 5)
     }
-    itensVendas.append(item_venda)
-    return item_venda
+    itensPedidos.append(item_pedido)
+    return item_pedido
     
 
 produtos = criarProdutos()
 clientes, enderecos = criarClientesEnderecos()
 vendedores = criarVendedores()
-vendas = criarVendas()
+pedidos = criarPedidos()
 print("Base de Dados Criada!!!!!")
 
 
@@ -197,12 +197,12 @@ arquivos = [
         "lista_objeto":vendedores
         },
         {
-        "nome_arquivo":"vendas.csv",
-        "lista_objeto":vendas
+        "nome_arquivo":"pedidos.csv",
+        "lista_objeto":pedidos
         },
         {
-        "nome_arquivo":"itens_venda.csv",
-        "lista_objeto":itensVendas
+        "nome_arquivo":"itens_pedido.csv",
+        "lista_objeto":itensPedidos
         },
     ]
 

@@ -4,8 +4,8 @@ import pandas as pd
 
 csv_clientes = 'tabelasResultadoFaker/clientes.csv'
 csv_vendedores = 'tabelasResultadoFaker/vendedores.csv'
-csv_vendas = 'tabelasResultadoFaker/vendas.csv'
-csv_itens_venda = 'tabelasResultadoFaker/itens_venda.csv'
+csv_pedidos = 'tabelasResultadoFaker/pedidos.csv'
+csv_itens_pedido = 'tabelasResultadoFaker/itens_pedido.csv'
 csv_produtos = 'tabelasResultadoFaker/produtos.csv'
 csv_enderecos = 'tabelasResultadoFaker/enderecos.csv'
 
@@ -16,16 +16,16 @@ csv_enderecos = 'tabelasResultadoFaker/enderecos.csv'
 # Lendo os arquivos CSV
 df_clientes = pd.read_csv(csv_clientes)
 df_vendedores = pd.read_csv(csv_vendedores)
-df_vendas = pd.read_csv(csv_vendas)
-df_itens_venda = pd.read_csv(csv_itens_venda)
+df_pedidos = pd.read_csv(csv_pedidos)
+df_itens_pedido = pd.read_csv(csv_itens_pedido)
 df_produtos = pd.read_csv(csv_produtos)
 df_enderecos = pd.read_csv(csv_enderecos)
 
 # Mostrando as primeiras linhas dos DataFrames
 # print(df_clientes.head())
 # print(df_vendedores.head())
-# print(df_vendas.head())
-# print(df_itens_venda.head())
+# print(df_pedidos.head())
+# print(df_itens_pedido.head())
 # print(df_produtos.head())
 # print(df_enderecos)
 
@@ -95,21 +95,21 @@ print(len(df_clientes)) # TUDO CERTO E NADA ERRADO
 # df.loc[mascara, 'email'] = df.loc[mascara, 'email'] + 'emailinvalido'  
 
 
-# vendas referenciando clientes que não existem
+# pedidos referenciando clientes que não existem
 
 # pensamento lógico
 # ids válidos estão em df_clientes, pegos os válido e removo os que não estão na lista
 ids_clientes_validos = df_clientes['id']
-print("antes: ", len(df_vendas))
+print("antes: ", len(df_pedidos))
 
 
 
-df_vendas = df_vendas[df_vendas['id_cliente'].isin(ids_clientes_validos)]
-print("depois: ", len(df_vendas))
+df_pedidos = df_pedidos[df_pedidos['id_cliente'].isin(ids_clientes_validos)]
+print("depois: ", len(df_pedidos))
 
-ids_vendas_validos = df_vendas['id']
+ids_pedidos_validos = df_pedidos['id']
 
-df_itens_venda = df_itens_venda[df_itens_venda['id_venda'].isin(ids_vendas_validos)]
+df_itens_pedido = df_itens_pedido[df_itens_pedido['id_pedido'].isin(ids_pedidos_validos)]
 
 # retirar coluna celular
 print(df_clientes.columns)
@@ -124,12 +124,12 @@ dataframes:list = [
      "nome_arquivo": "clientes.csv"},
      {"dataframe":df_enderecos,
      "nome_arquivo": "enderecos.csv"},
-     {"dataframe":df_vendas,
-     "nome_arquivo": "vendas.csv"},
+     {"dataframe":df_pedidos,
+     "nome_arquivo": "pedidos.csv"},
      {"dataframe":df_produtos,
      "nome_arquivo": "produtos.csv"},
-     {"dataframe":df_itens_venda,
-     "nome_arquivo": "itens_venda.csv"},
+     {"dataframe":df_itens_pedido,
+     "nome_arquivo": "itens_pedido.csv"},
      {"dataframe":df_vendedores,
      "nome_arquivo": "vendedores.csv"},
 ]

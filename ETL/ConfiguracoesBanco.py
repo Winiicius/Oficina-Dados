@@ -7,42 +7,42 @@ from sqlalchemy import Table, Column, Integer, String, MetaData
 # Definir a conexão com o PostgreSQL
 def conectar_banco(nome_banco):
     """Conectar ao banco de dados PostgreSQL usando SQLAlchemy."""
-    engine = create_engine(f'postgresql://postgres:admin@localhost:5432/{nome_banco}')
+    engine = create_engine(f'postgresql://user:password@postgres:5432/{nome_banco}')
     return engine
 
-def criar_banco(nome_banco):
-    # Estabelecer conexão sem especificar um banco de dados
-    connection = psycopg2.connect(
-        user='postgres', 
-        password='admin', 
-        host='localhost', 
-        port='5432'
-    )
-
-    connection.autocommit = True
-
-    # Criar um cursor
-    cursor = connection.cursor()
-
-    # Comando para criar o banco de dados
-    comando_sql = f"CREATE DATABASE {nome_banco};"
-
-    # Executar o comando
-    try:
-        cursor.execute(comando_sql)
-        connection.commit()
-        print(f"Banco de dados '{nome_banco}' criado com sucesso!")
-    except Exception as e:
-        print(f"Erro ao criar banco de dados: {e}")
-    finally:
-        # Fechar a conexão
-        cursor.close()
-        connection.close()
+# def criar_banco(nome_banco):
+#     # Estabelecer conexão sem especificar um banco de dados
+#     connection = psycopg2.connect(
+#         user='postgres',
+#         password='admin',
+#         host='localhost',
+#         port='5432'
+#     )
+#
+#     connection.autocommit = True
+#
+#     # Criar um cursor
+#     cursor = connection.cursor()
+#
+#     # Comando para criar o banco de dados
+#     comando_sql = f"CREATE DATABASE {nome_banco};"
+#
+#     # Executar o comando
+#     try:
+#         cursor.execute(comando_sql)
+#         connection.commit()
+#         print(f"Banco de dados '{nome_banco}' criado com sucesso!")
+#     except Exception as e:
+#         print(f"Erro ao criar banco de dados: {e}")
+#     finally:
+#         # Fechar a conexão
+#         cursor.close()
+#         connection.close()
 
 # Função para enviar os dados do CSV para o banco
 def enviar_csv_para_postgres(nome_banco, arquivos):
     
-    criar_banco(nome_banco)
+    # criar_banco(nome_banco)
     # Conectar ao banco
     engine = conectar_banco(nome_banco)
 
@@ -96,23 +96,23 @@ def criar_tabelas(engine):
                 email varchar(110),
                 CONSTRAINT fk_endereco FOREIGN KEY (id_endereco) REFERENCES enderecos(id)
             );
-            CREATE TABLE vendas (
+            CREATE TABLE pedidos (
                 id bigint PRIMARY KEY,
                 id_vendedor bigint,
                 id_cliente bigint,
                 preco_total float,
-                data_venda DATE,
+                data_pedido DATE,
                 comissao float,
                 CONSTRAINT fk_vendedor FOREIGN KEY (id_vendedor) REFERENCES vendedores(id),
                 CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES clientes(id)
             );
-            CREATE TABLE itens_venda (
+            CREATE TABLE itens_pedido (
                 id bigint PRIMARY KEY,
-                id_venda bigint,
+                id_pedido bigint,
                 id_produto bigint,
                 preco_produto float,
                 quantidade int,
-                CONSTRAINT fk_venda FOREIGN KEY (id_venda) REFERENCES vendas(id),
+                CONSTRAINT fk_pedido FOREIGN KEY (id_pedido) REFERENCES pedidos(id),
                 CONSTRAINT fk_produto FOREIGN KEY (id_produto) REFERENCES produtos(id)
             );
             """
@@ -132,10 +132,10 @@ arquivos:list = [
      "nome_tabela": "vendedores"},
     {"caminho_arquivo":"clientes.csv",
      "nome_tabela": "clientes"},
-     {"caminho_arquivo":"vendas.csv",
-     "nome_tabela": "vendas"},
-     {"caminho_arquivo":"itens_venda.csv",
-     "nome_tabela": "itens_venda"}
+     {"caminho_arquivo":"pedidos.csv",
+     "nome_tabela": "pedidos"},
+     {"caminho_arquivo":"itens_pedido.csv",
+     "nome_tabela": "itens_pedido"}
 ]
 
 enviar_csv_para_postgres("banco_teste_3", arquivos)
