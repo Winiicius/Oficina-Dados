@@ -1,8 +1,5 @@
 import pandas as pd
-import psycopg2
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Table, Column, Integer, String, MetaData
 
 # Definir a conexão com o PostgreSQL
 def conectar_banco(nome_banco):
@@ -10,43 +7,13 @@ def conectar_banco(nome_banco):
     engine = create_engine(f'postgresql://user:password@postgres:5432/{nome_banco}')
     return engine
 
-# def criar_banco(nome_banco):
-#     # Estabelecer conexão sem especificar um banco de dados
-#     connection = psycopg2.connect(
-#         user='postgres',
-#         password='admin',
-#         host='localhost',
-#         port='5432'
-#     )
-#
-#     connection.autocommit = True
-#
-#     # Criar um cursor
-#     cursor = connection.cursor()
-#
-#     # Comando para criar o banco de dados
-#     comando_sql = f"CREATE DATABASE {nome_banco};"
-#
-#     # Executar o comando
-#     try:
-#         cursor.execute(comando_sql)
-#         connection.commit()
-#         print(f"Banco de dados '{nome_banco}' criado com sucesso!")
-#     except Exception as e:
-#         print(f"Erro ao criar banco de dados: {e}")
-#     finally:
-#         # Fechar a conexão
-#         cursor.close()
-#         connection.close()
 
 # Função para enviar os dados do CSV para o banco
 def enviar_csv_para_postgres(nome_banco, arquivos):
     
-    # criar_banco(nome_banco)
     # Conectar ao banco
     engine = conectar_banco(nome_banco)
 
-    # Criar a tabela caso não exista (opcional)
     criar_tabelas(engine)
 
     for arquivo in arquivos: 
