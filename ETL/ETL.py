@@ -117,6 +117,10 @@ df_clientes = df_clientes.drop(columns=['celular'])
 print(df_clientes.columns)
 
 
+# Criar coluna comissao
+
+df_pedidos["comissao"] = round(df_pedidos["preco_total"] * 0.04, 2)
+
 # TRANSFOMAR OS DATAFRAMES EM CSV
 
 dataframes:list = [
@@ -137,6 +141,7 @@ dataframes:list = [
 def salvarDFs(dataframes:list):
     for dataframe in dataframes:
         dataframe.get("dataframe").to_csv("tabelasResultadoETL/" + dataframe.get("nome_arquivo"), index=False, encoding='utf-8', sep=',')
+        print(f"Arquivo {dataframe.get("nome_arquivo")} salvo com sucesso!!!")
 
 salvarDFs(dataframes)
 

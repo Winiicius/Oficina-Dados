@@ -49,9 +49,6 @@ CREATE TABLE vendas (
     CONSTRAINT fk_vendedor FOREIGN KEY (id_vendedor) REFERENCES vendedores(id),
     CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES clientes(id)
 );
-
-
-
 CREATE TABLE itens_venda (
     id bigint PRIMARY KEY,
     id_venda bigint,
