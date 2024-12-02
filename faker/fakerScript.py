@@ -161,12 +161,14 @@ def criarItemPedido(id:int):
     elif( precoProduto < 500 ): quantidadeMaxima = 5
     elif( precoProduto < 750 ): quantidadeMaxima = 4
     else: quantidadeMaxima = 2
+    quantidade = random.randint(1, quantidadeMaxima) # Gera um número de 1 a 7, que é a quantidade de produto comprada
     item_pedido = {
         "id":random.randint(0, 99999999999999), # número alto para evitar replicação de id
          "id_pedido":id,
          "id_produto":produto.get("id"), # Pega o id do pedido
          "preco_produto":precoProduto, # Pega o preco do produto
-         "quantidade":random.randint(1, quantidadeMaxima) # Gera um número de 1 a 4, que é a quantidade de produto comprada
+         "quantidade":quantidade, # Define a quantidade de itens
+         "preco_itens":(precoProduto*quantidade) # Calcula o preco total desse item
     }
     itensPedido.append(item_pedido) # Adiciona o item pedido na lista de todos os itens pedido
     return item_pedido

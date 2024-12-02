@@ -79,6 +79,7 @@ def criar_tabelas(engine):
                 id_produto bigint,
                 preco_produto float,
                 quantidade int,
+                preco_itens float,
                 CONSTRAINT fk_pedido FOREIGN KEY (id_pedido) REFERENCES pedidos(id),
                 CONSTRAINT fk_produto FOREIGN KEY (id_produto) REFERENCES produtos(id)
             );
