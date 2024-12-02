@@ -106,15 +106,54 @@ O psycopg2 é um adaptador de banco de dados PostgreSQL para Python. Ele é usad
 
 # Instrutores
 
-**Winicius Alexandre**
+<div style="display: flex; justify-content: space-around; align-items: center; gap: 20px;">
+  <!-- Winicius -->
+  <div style="text-align: center;">
+    <strong>Winicius</strong>
+    <p></p>
+    <p>
+      <a href="https://github.com/Winiicius" rel="noopener">
+        <img width="100" height="100" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/102719335?v=4" alt="Foto Winicius">
+      </a>
+    </p>
+    <p>
+      <a href="www.linkedin.com/in/winicius-alexandre-066a92248" target="_blank">
+        <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+      </a>
+    </p>
+  </div>
 
-<p>
-  <a href="https://github.com/Winiicius" rel="noopener">
- <img width="100" height="100" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/102719335?v=4" alt="Foto Winicius"></a>
-</p>
+  <!-- Rharhuandrew -->
+  <div style="text-align: center;">
+  <strong>Rharhuandrew</strong>
+    <p></p>
+    <p>
+      <a href="https://github.com/rharhuandew" rel="noopener">
+        <img width="100" height="100" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/100100347?v=4" alt="Foto Rharhuandrew">
+      </a>
+    </p>
+    <p>
+      <a href="https://www.linkedin.com/in/rharhuandrew-souza/" target="_blank">
+        <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+      </a>
+    </p>
+    
+  </div>
 
-  <a href="www.linkedin.com/in/winicius-alexandre-066a92248" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
-
-**Rharhuandrew**
-
-**Carlos Ryan**
+  <!-- Ryan -->
+  <div style="text-align: center;">
+    <strong>Carlos Ryan</strong>
+    <p></p>
+    <p>
+      <a href="https://github.com/carlosryan" rel="noopener">
+        <img width="100" height="100" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/140994484?v=4" alt="Foto Carlos Ryan">
+      </a>
+    </p>
+    <p>
+      <a href="https://www.linkedin.com/in/carlos-ryan-726820279/" target="_blank">
+        <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+      </a>
+    </p>
+    
+  </div>
+</div>
