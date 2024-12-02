@@ -32,8 +32,8 @@ def getDominioEmail() -> str:
             "@gmx.com"
     ]
     dominio_aleatorio = random.choice(emails)
-    if (random.random() <= 0.02):
-        dominio_aleatorio = "@emailinvalido.com"
+    if (random.random() <= 0.05):
+        dominio_aleatorio = "null"
     return dominio_aleatorio;
 
 def getCargo():
@@ -70,6 +70,7 @@ def criarClientesEnderecos():
         endereco = criarEndereco() # Chama a função criar endereço ( linha 54 )
         nome = faker.first_name() # Gera um nome aleatório
         sobrenome = faker.last_name() # Gera um sobrenome aleatório
+        dominioEmail = getDominioEmail(); # Retorna um domínio de email aleatório da lista( chance baixa de retornar null )
         cliente = { # Definindo corpo da entidade Cliente
             "id":id_cliente,
             "id_endereco":endereco.get("id"), # Pega o id do endereço criado
@@ -77,7 +78,7 @@ def criarClientesEnderecos():
             "sobrenome":sobrenome,
             "data_nascimento": faker.date_of_birth(minimum_age=18, maximum_age=80).strftime('%Y-%m-%d'),  # Gera uma data de no mínimo 18 anos e no máximo 80, no formato -> ano/mês/dia
             "celular": fakerBR.cellphone_number(), # Gera um número de telefone aleatório
-            "email":f"{remover_acentos(nome.lower())}{remover_acentos(sobrenome.lower())}{getDominioEmail()}" # Formata o e-mail com nome e sobrenome sem acentos e um domínio aleatório ( linha 17 )
+            "email":f"{remover_acentos(nome.lower())}{remover_acentos(sobrenome.lower())}{dominioEmail}" if dominioEmail != "null" else dominioEmail # Formata o e-mail com nome e sobrenome sem acentos e um domínio aleatório ( linha 17 ), se dominio email diferente de null, ele pqgao nome e sobrenome e coloca um domínio aleatório, se não, email = null
         }
         clientes.append(cliente) # Adiciona o cliente na lista de todos os clientes
         if (random.random() < 0.01): # Chance de duplicar o cliente
@@ -156,8 +157,8 @@ def criarItemPedido(id:int):
     quantidadeMaxima = 0 # quantidade maxima de produtos que podem ser comprados
 
     precoProduto = produto.get("preco")
-    if( precoProduto < 250): quantidadeMaxima = 7 # Quanto maior o valor do produto, menor é a quantidade que ele pode comprar do mesmo
-    elif( precoProduto < 500 ): quantidadeMaxima = 5 
+    if( precoProduto < 250 ): quantidadeMaxima = 7 # Quanto maior o valor do produto, menor é a quantidade que ele pode comprar do mesmo
+    elif( precoProduto < 500 ): quantidadeMaxima = 5
     elif( precoProduto < 750 ): quantidadeMaxima = 4
     else: quantidadeMaxima = 2
     item_pedido = {
@@ -178,7 +179,7 @@ print("Base de Dados Criada!!!!!")
 
 
 def criar_arquivo_csv(nome_arquivo, lista_objeto):
-    with open("tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="UTF-8") as arquivo: # intelliJ -> ../tabelasResultadoFaker/
+    with open("tabelasResultadoFaker/" + nome_arquivo, mode="w", newline="", encoding="UTF-8") as arquivo: 
         # Criar o objeto writer
         escritor = csv.DictWriter(arquivo, fieldnames=lista_objeto[0].keys())
         # Escrever o cabeçalho
