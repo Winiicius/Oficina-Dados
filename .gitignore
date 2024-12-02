@@ -4,3 +4,5 @@ SQL/
 SQL/*
 
 faker/__pycache__/
+
+ETL/ETL.py
