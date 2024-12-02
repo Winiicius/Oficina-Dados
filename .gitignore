@@ -1,7 +1,6 @@
 .vscode
 
-SQL
 SQL/
 SQL/*
 
-faker/__pycache__
+faker/__pycache__/
