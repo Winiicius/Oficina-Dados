@@ -171,7 +171,7 @@ dataframes:list = [
 def salvarDFs(dataframes:list):
     for dataframe in dataframes:
         dataframe.get("dataframe").to_csv("tabelasResultadoETL/" + dataframe.get("nome_arquivo"), index=False, encoding='utf-8', sep=',')
-        print(f"Arquivo {dataframe.get("nome_arquivo")} salvo com sucesso!!!")
+        print("Arquivo ", dataframe.get("nome_arquivo"), " salvo com sucesso!!!")
         time.sleep(1)
 
 salvarDFs(dataframes)

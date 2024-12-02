@@ -22,7 +22,7 @@ def enviar_csv_para_postgres(nome_banco, arquivos):
 
         # Enviar os dados para o banco de dados usando o método to_sql do Pandas
         df.to_sql(arquivo.get("nome_tabela"), con=engine, if_exists='append', index=False)
-        print(f"Dados do {arquivo.get("nome_tabela")}.csv transformados em tabela com sucesso!")
+        print("Dados do ", arquivo.get("nome_tabela"), ".csv transformados em tabela com sucesso!")
 
 def criar_tabelas(engine):
 
