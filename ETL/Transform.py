@@ -29,126 +29,24 @@ df_enderecos = pd.read_csv(csv_enderecos)
 # DataFrame é uam tabela oferecida pelo pandas
 # vários métodos disponibilizados para facilitar a manipulação dos dados
 
-# Mostrando as primeiras linhas dos DataFrames
+# Mostrando as linhas de um DataFrames
 
-# print(df_clientes.head())
-# print(df_vendedores.head())
-# print(df_pedidos.head())
-# print(df_itens_pedido.head())
-# print(df_produtos.head())
-# print(df_enderecos)
 
 
 # Após análise dos dados percebi que:
 
 # tenho clientes e vendedores com id nulos
+
 # tenho cliente duplicados
-# tenho alguns clientes com o email nulos
+
+# tenho alguns clientes com o email nulo
+
 # retirar a coluna "celular" dos clientes
+
 # alguns pedidos refereciam ids de clientes e vendedores que não existem
-# seria legal ter um jeito de  saber a comissão que o vendedor ganhou ( sabendo que a comissão é 4% do valor total do pedido )
-# criar coluna  comissao nos pedidos
 
-
-####################################################################################
-# Tenho clientes e vendedores com id nulos
-
-# Tenho duas opções ao encontrar um valor nulo ou indesejado
-
-# 1 - excluir registro
-# 2 - substituir valor
-
-# excluir vendedores com nulo no id
-
-# print("tamanho df_vendedores:", len(df_vendedores))
-# print(print(df_vendedores["id"].isnull().sum()))
-
-df_vendedores = df_vendedores[df_vendedores['id'].notnull()]
-
-# print("tamanho df_vendedores:", len(df_vendedores))
-# print(print(df_vendedores["id"].isnull().sum()))
-
-
-# pegar os ids dos endereços que o id do cliente está nulo
-
-df_clientes_nulos = df_clientes[df_clientes['id'].isnull()]
-
-ids_nulos_enderecos = df_clientes_nulos['id_endereco']
-
-# print(len(df_enderecos))
-df_enderecos = df_enderecos[~df_enderecos['id'].isin(ids_nulos_enderecos)]
-# print(len(df_enderecos))
-
-# print(len(df_clientes))
-df_clientes = df_clientes[df_clientes['id'].notnull()]
-# print(len(df_clientes))
-
-
-# Se eu exclui os clientes nulos e os respectivos endereços, 
-# porque o tamanho está diferente levando em consideração que 
-# eu tenho um endereço pra cada cliente?
-
-####################################################################################
-# Tenho clientes duplicados
-
-# print(df_clientes.duplicated().sum())
-
-df_clientes = df_clientes.drop_duplicates()
-
-# print(len(df_clientes))
-
-# print(len(df_enderecos))
-
-####################################################################################
-# Tenho alguns clientes com o email nulo
-
-# print(df_clientes['email'].isnull().sum())
-
-# null -> nomesobrenome@emailinvalido.com
-
-# lambda argumentos: expressao
-lambda a, b: a + b
-
-df_clientes['email'] = df_clientes.apply(
-    lambda linha: linha['nome'] + linha['sobrenome'] + "@emailinvalido.com" if pd.isnull(linha["email"]) else linha["email"],
-    axis=1
-)
-
-# print(df_clientes['email'].isnull().sum())
-
-####################################################################################
-# retirar a coluna "celular" dos clientes
-
-# print(df_clientes.columns)
-df_clientes = df_clientes.drop(columns=["celular"])
-# print(df_clientes.columns)
-
-####################################################################################
-# Alguns pedidos refereciam ids de clientes que não existem
-
-ids_clientes_validos = df_clientes["id"]
-
-# print(len(df_pedidos))
-df_pedidos = df_pedidos[df_pedidos['id_cliente'].isin(ids_clientes_validos)]
-# print(len(df_pedidos))
-
-# Qual o problema ???
-
-# itempedido que referencia id de pedido que não existe 
-
-ids_pedidos_validos = df_pedidos["id"]
-
-# print(len(df_itens_pedido))
-df_itens_pedido = df_itens_pedido[df_itens_pedido["id_pedido"].isin(ids_pedidos_validos)]
-# print(len(df_itens_pedido))
-
-####################################################################################
-# seria legal ter um jeito de  saber a comissão que o vendedor ganhou 
-# ( sabendo que a comissão é 4% do valor total do pedido )
-# criar coluna  comissao nos pedidos
-
-df_pedidos["comissao"] = round(df_pedidos["preco_total"]*0.04, 2)
-# print(df_pedidos.columns)
+# Seria legal ter um jeito de  saber a comissão que o vendedor ganhou ( sabendo que a comissão é 4% do valor total do pedido )
+# criar coluna comissao nos pedidos
 
 
 # # TRANSFOMAR OS DATAFRAMES EM CSV
@@ -175,4 +73,3 @@ def salvarDFs(dataframes:list):
         time.sleep(1)
 
 salvarDFs(dataframes)
-
