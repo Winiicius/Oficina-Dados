@@ -98,7 +98,7 @@ def criarVendedores() -> list: # criar vendedores
         vendedor = {"id": i if random.random() > 0.01 else "null", # Chance do id ser null
                     "nome":nome,
                     "sobrenome":sobrenome,
-                    "email":f"{remover_acentos(nomeCompleto[1].lower())}{remover_acentos(sobrenome.lower())}@nomeEmpresa.com", # Formata o e-mail com nome e sobrenome sem acentos.
+                    "email":f"{remover_acentos(nomeCompleto[1].lower())}{remover_acentos(sobrenome.lower())}@rwcimportados.com", # Formata o e-mail com nome e sobrenome sem acentos.
                     "data_admissao":faker.date_of_birth(minimum_age=0, maximum_age=20).strftime('%Y-%m-%d'), # gera uma data entre 0 e 20 anos atrás no formatp ano/mes/dia
                     "cargo":getCargo() # Retorna um cargo ( linha 39 )
                 }
@@ -148,7 +148,7 @@ def criarProdutos():
         {"id":2101, "nome":"Miniatura do Titanic (já quebrada)", "preco":500, "categoria":"Colecionáveis"},
         {"id":2201, "nome":"Óculos", "preco":150, "categoria":"Acessório"},
         {"id":2301, "nome":"Fanta Uvas", "preco":3.50, "categoria":"Consumível"},
-        {"id":2302, "nome":"Action-Figure do Mario Abrindo o ..copo de cerveja", "preco":120, "categoria":"Colecionáveis"},
+        {"id":2302, "nome":"Action-Figure do Mario Abrindo o ...", "preco":120, "categoria":"Colecionáveis"},
         {"id":2303, "nome":"Colar mágico (não garante poderes)", "preco":200, "categoria":"Acessório"},
         {"id":2304, "nome":"Fanta Laranja", "preco":4.99, "categoria":"Consumível"},
         {"id":2305, "nome":"Relógio vintage com despertador sonoro", "preco":800, "categoria":"Colecionáveis"},
