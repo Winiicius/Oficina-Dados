@@ -107,16 +107,80 @@ def criarVendedores() -> list: # criar vendedores
     return vendedores
 
 
-def criarProdutos(): # não adicionar produtos com valores muito caros!!! entre 0 e 3000/5000
+def criarProdutos():
     print("Criando os Produtos . . .")
     produtos = [ # Criando produtos de sua preferência
         {"id":303, "nome":"Violão Start Giannini", "preco":300, "categoria":"Música"},
-        {"id":34, "nome":"Guaravita", "preco":5.50, "categoria":"Refrigerante"},
-        {"id":398, "nome":"Piano", "preco":10000, "categoria":"Música"},
+        {"id":34, "nome":"Guaravita", "preco":5.50, "categoria":"Consumível"},
+        {"id":398, "nome":"Piano", "preco":2500, "categoria":"Música"},
         {"id":234, "nome":"Playstation 5", "preco":3000, "categoria":"Entretenimento"},
-        {"id":3, "nome":"Kwid", "preco":30000, "categoria":"Automóvel"},
-        {"id":3032, "nome":"Sandália", "preco":50, "categoria":"Vestimenta"},
-        
+        {"id":30, "nome":"Fila de Prova", "preco":25, "categoria":"Ilegal"},
+        {"id":32, "nome":"Jogo do tigrinho (desperte a fera em você)", "preco":55, "categoria":"Ilegal"},
+        {"id":31, "nome":"Dolly Guaraná", "preco":2, "categoria":"Consumível"},
+        {"id":101, "nome":"Chinelo Havaianas", "preco":20, "categoria":"Vestimenta"},
+        {"id":402, "nome":"Teclado Mecânico RGB", "preco":350, "categoria":"Tecnologia"},
+        {"id":76, "nome":"Como ser pago apresentando SEMIT", "preco":150, "categoria":"Desabafo"},
+        {"id":222, "nome":"Curso de como ficar rico rápido (não funciona)", "preco":199, "categoria":"Ilegal"},
+        {"id":98, "nome":"Travesseiro Nuvem", "preco":80, "categoria":"Casa"},
+        {"id":55, "nome":"Kit de Piadas (Cairam os preços da loja...)", "preco":35, "categoria":"Entretenimento"},
+        {"id":112, "nome":"Efeitos Sonoros (Rodrigo Faro)", "preco":15, "categoria":"Entretenimento"},
+        {"id":404, "nome":"Pão de Queijo Imaginário", "preco":1000, "categoria":"Ilusão"},
+        {"id":1010, "nome":"Treinador de Pokémon", "preco":499, "categoria":"Jogos"},
+        {"id":89, "nome":"Roupa do Neymar (autenticada pelo primo dele)", "preco":1000, "categoria":"Colecionáveis"},
+        {"id":17, "nome":"Jogo da Vida versão hardcore (Você já esta jogando)", "preco":49, "categoria":"Jogos"},
+        {"id":99, "nome":"Pneu recondicionado (meio quadrado)", "preco":120, "categoria":"Automóvel"},
+        {"id":1234, "nome":"O molho", "preco":250, "categoria":"Entretenimento"},
+        {"id":56, "nome":"Microondas do Futuro (ainda não chegou)", "preco":1500, "categoria":"Tecnologia"},
+        {"id":33, "nome":"Relógio que só funciona aos sábados", "preco":300, "categoria":"Acessório"},
+        {"id":801, "nome":"Moto usada com adesivo 'Vai na Fé'", "preco":5000, "categoria":"Automóvel"},
+        {"id":802, "nome":"Carro de controle remoto turbo", "preco":200, "categoria":"Automóvel"},
+        {"id":901, "nome":"Camiseta com frase motivacional reversa", "preco":45, "categoria":"Vestimenta"},
+        {"id":902, "nome":"Boné Invisível (altamente funcional)", "preco":60, "categoria":"Vestimenta"},
+        {"id":1301, "nome":"Fone (que não enrola)", "preco":100, "categoria":"Tecnologia"},
+        {"id":1302, "nome":"Carregador solar para celulares noturnos", "preco":300, "categoria":"Tecnologia"},
+        {"id":1401, "nome":"Suco Gummy Bear", "preco":4.99, "categoria":"Consumível"},
+        {"id":1402, "nome":"Coca-cola", "preco":6.50, "categoria":"Consumível"},
+        {"id":1403, "nome":"Fanta sabor esperança pelo dia de amanhã", "preco":5.00, "categoria":"Consumível"},
+        {"id":1601, "nome":"Pulseira da Sorte (não testada), boa sorte ao testar", "preco":50, "categoria":"Acessório"},
+        {"id":1602, "nome":"Cinto Multifuncional (com abridor de garrafa)", "preco":120, "categoria":"Acessório"},
+        {"id":1603, "nome":"O Jogo", "preco":300, "categoria":"Jogos"},
+        {"id":1701, "nome":"Guia para lidar com o estresse de reuniões intermináveis, EU NÃO TÔ ESTRESSADO", "preco":99.99, "categoria":"Desabafo"},
+        {"id":2101, "nome":"Miniatura do Titanic (já quebrada)", "preco":500, "categoria":"Colecionáveis"},
+        {"id":2201, "nome":"Óculos", "preco":150, "categoria":"Acessório"},
+        {"id":2301, "nome":"Fanta Uvas", "preco":3.50, "categoria":"Consumível"},
+        {"id":2302, "nome":"Action-Figure do Mario Abrindo o ..copo de cerveja", "preco":120, "categoria":"Colecionáveis"},
+        {"id":2303, "nome":"Colar mágico (não garante poderes)", "preco":200, "categoria":"Acessório"},
+        {"id":2304, "nome":"Fanta Laranja", "preco":4.99, "categoria":"Consumível"},
+        {"id":2305, "nome":"Relógio vintage com despertador sonoro", "preco":800, "categoria":"Colecionáveis"},
+        {"id":2306, "nome":"Chaveiro com abridor de garrafas", "preco":10, "categoria":"Acessório"},
+        {"id":2307, "nome":"Refrigerante com gás extra (muito gaseificado)", "preco":5.50, "categoria":"Consumível"},
+        {"id":2308, "nome":"Quadro", "preco":125, "categoria":"Colecionáveis"},
+        {"id":2309, "nome":"Anel de compromisso com você mesmo", "preco":150, "categoria":"Acessório"},
+        {"id":2801, "nome":"Jaqueta de Couro de Largatixa", "preco":250, "categoria":"Vestimenta"},
+        {"id":2802, "nome":"Calça Jeans", "preco":150, "categoria":"Vestimenta"},
+        {"id":2803, "nome":"Meias Esportivas (kit com 3 pares)", "preco":40, "categoria":"Vestimenta"},
+        {"id":2901, "nome":"Receita de Sonegação de Imposto", "preco":299, "categoria":"Ilegal"},
+        {"id":2902, "nome":"Clonagem de Cartão (insira os dados do seu cartão)", "preco":500, "categoria":"Ilegal"},
+        {"id":2903, "nome":"Curso de Como Hackear suas Senhas (é só anota-las)", "preco":350, "categoria":"Ilegal"},
+        {"id":3001, "nome":"Cabo HDMI sem o I", "preco":50, "categoria":"Tecnologia"},
+        {"id":3002, "nome":"Carregador Portátil (00.000mAh)", "preco":150, "categoria":"Tecnologia"},
+        {"id":3003, "nome":"Mouse Sem Fio", "preco":100, "categoria":"Tecnologia"},
+        {"id":3201, "nome":"Panela Antiaderente", "preco":120, "categoria":"Casa"},
+        {"id":3202, "nome":"Toalha de Mesa", "preco":50, "categoria":"Casa"},
+        {"id":3203, "nome":"Almofada", "preco":70, "categoria":"Casa"},
+        {"id":3301, "nome":"Espelho Mágico (não muda nada)", "preco":150, "categoria":"Ilusão"},
+        {"id":3401, "nome":"Baralho Padrão", "preco":20, "categoria":"Jogos"},
+        {"id":3402, "nome":"Dados de RPG (kit com 7 peças)", "preco":50, "categoria":"Jogos"},
+        {"id":3403, "nome":"UNO para jogar no patio da faculdade", "preco":100, "categoria":"Jogos"},
+        {"id":3501, "nome":"Moeda de Coleção Comemorativa", "preco":300, "categoria":"Colecionáveis"},
+        {"id":3502, "nome":"Caneca com autógrafo surpresa", "preco":120, "categoria":"Colecionáveis"},
+        {"id":3503, "nome":"Boneco Action-Figure Clássico", "preco":200, "categoria":"Colecionáveis"},
+        {"id":3601, "nome":"Brincos de Prata", "preco":100, "categoria":"Acessório"},
+        {"id":3602, "nome":"Pequena Grande Bolsa de Couro", "preco":250, "categoria":"Acessório"},
+        {"id":3603, "nome":"Óculos de Sol", "preco":150, "categoria":"Acessório"},
+        {"id":3604, "nome":"Óculos de Chuva", "preco":150, "categoria":"Acessório"},
+        {"id":3604, "nome":"Camisa do Manoel Gomes", "preco":89, "categoria":"Vestimenta"},
+
     ]
     time.sleep(2)
     return produtos
@@ -160,7 +224,8 @@ def criarItemPedido(id:int):
     if( precoProduto < 250 ): quantidadeMaxima = 7 # Quanto maior o valor do produto, menor é a quantidade que ele pode comprar do mesmo
     elif( precoProduto < 500 ): quantidadeMaxima = 5
     elif( precoProduto < 750 ): quantidadeMaxima = 4
-    else: quantidadeMaxima = 2
+    elif ( precoProduto <= 2000): quantidadeMaxima = 2
+    else: quantidadeMaxima = 1
     quantidade = random.randint(1, quantidadeMaxima) # Gera um número de 1 a 7, que é a quantidade de produto comprada
     item_pedido = {
         "id":random.randint(0, 99999999999999), # número alto para evitar replicação de id
