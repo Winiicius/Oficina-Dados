@@ -179,7 +179,6 @@ def criarProdutos():
         {"id":3602, "nome":"Pequena Grande Bolsa de Couro", "preco":250, "categoria":"Acessório"},
         {"id":3603, "nome":"Óculos de Sol", "preco":150, "categoria":"Acessório"},
         {"id":3604, "nome":"Óculos de Chuva", "preco":150, "categoria":"Acessório"},
-        {"id":3604, "nome":"Óculos de Chuva", "preco":150, "categoria":"Acessório"},
         {"id":3701, "nome":"Mouse Gamer RGB", "preco":120, "categoria":"Tecnologia"},
         {"id":3702, "nome":"Teclado Mecânico com Luzes", "preco":250, "categoria":"Tecnologia"},
         {"id":3703, "nome":"Monitor UltraWide 29''", "preco":1200, "categoria":"Tecnologia"},
@@ -190,7 +189,7 @@ def criarProdutos():
         {"id":3708, "nome":"Tablet Compacto 8''", "preco":950, "categoria":"Tecnologia"},
         {"id":3709, "nome":"Power Bank de Alta Capacidade", "preco":150, "categoria":"Tecnologia"},
         {"id":3710, "nome":"Drone com Câmera 4K", "preco":2500, "categoria":"Tecnologia"},
-        {"id":3711, "nome":"Smartphone com Tela Dobrável", "preco":6500, "categoria":"Tecnologia"},
+        {"id":3711, "nome":"Smartphone com Tela Dobrável", "preco":5000, "categoria":"Tecnologia"},
         {"id":3712, "nome":"Impressora Multifuncional", "preco":800, "categoria":"Tecnologia"},
         {"id":3713, "nome":"Placa de Vídeo RTX 4060", "preco":3000, "categoria":"Tecnologia"},
         {"id":3714, "nome":"HD Externo 2TB", "preco":500, "categoria":"Tecnologia"},
@@ -265,9 +264,9 @@ def criarItemPedido(id:int):
     quantidadeMaxima = 0 # quantidade maxima de produtos que podem ser comprados
 
     precoProduto = produto.get("preco")
-    if( precoProduto < 250 ): quantidadeMaxima = 7 # Quanto maior o valor do produto, menor é a quantidade que ele pode comprar do mesmo
-    elif( precoProduto < 500 ): quantidadeMaxima = 5
-    elif( precoProduto < 750 ): quantidadeMaxima = 4
+    if( precoProduto <= 250 ): quantidadeMaxima = 7 # Quanto maior o valor do produto, menor é a quantidade que ele pode comprar do mesmo
+    elif( precoProduto <= 500 ): quantidadeMaxima = 4
+    elif( precoProduto <= 750 ): quantidadeMaxima = 3
     elif ( precoProduto <= 2000): quantidadeMaxima = 2
     else: quantidadeMaxima = 1
     quantidade = random.randint(1, quantidadeMaxima) # Gera um número de 1 a 7, que é a quantidade de produto comprada
