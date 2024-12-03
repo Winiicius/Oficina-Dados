@@ -6,3 +6,5 @@ SQL/*
 faker/__pycache__/
 
 ETL/ETL.py
+
+ETL/TransformModel.py
