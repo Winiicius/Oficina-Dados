@@ -51,7 +51,7 @@ def criar_tabelas(engine):
             CREATE TABLE produtos (
                 id bigint PRIMARY KEY,
                 nome varchar(100),
-                preco float,
+                preco DECIMAL(10, 2),
                 categoria varchar(100)
             );
             CREATE TABLE clientes (
@@ -67,9 +67,9 @@ def criar_tabelas(engine):
                 id bigint PRIMARY KEY,
                 id_vendedor bigint,
                 id_cliente bigint,
-                preco_total float,
+                preco_total DECIMAL(10, 2),
                 data_pedido DATE,
-                comissao float,
+                comissao DECIMAL(10, 2),
                 CONSTRAINT fk_vendedor FOREIGN KEY (id_vendedor) REFERENCES vendedores(id),
                 CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES clientes(id)
             );
@@ -77,9 +77,9 @@ def criar_tabelas(engine):
                 id bigint PRIMARY KEY,
                 id_pedido bigint,
                 id_produto bigint,
-                preco_produto float,
+                preco_produto DECIMAL(10, 2),
                 quantidade int,
-                preco_itens float,
+                preco_itens DECIMAL(10, 2),
                 CONSTRAINT fk_pedido FOREIGN KEY (id_pedido) REFERENCES pedidos(id),
                 CONSTRAINT fk_produto FOREIGN KEY (id_produto) REFERENCES produtos(id)
             );
