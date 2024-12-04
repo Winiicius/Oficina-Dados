@@ -58,20 +58,16 @@ Primeiramente, instale as bibliotecas necessárias executando o comando abaixo n
 pip install pandas Faker sqlalchemy psycopg2-binary
 ```
 
-bibliotecas instaladas, vamos rodar a classe [fakerScript.py](faker/fakerScript.py), isso vai gerar 6 arquivos CSV com erros propositais para serem tratados na próxima etapa. 
+Bibliotecas instaladas, vamos rodar a classe [fakerScript.py](faker/fakerScript.py), isso vai gerar 6 arquivos CSV na pasta [tabelasResultadoFaker](tabelasResultadoFaker/) com erros propositais para serem tratados na próxima etapa. 
 
 Agora na classe [ETL.py](ETL/ETL.py) será onde vamos usar o pandas tratar os erros da nossa base de dados, após fazer todo processo de tratamento dos dados, os mesmo arquivos CSV, mas agora sem erros, serão salvos na pasta [tabelasResultadoETL](tabelasResultadoETL/).
 
 ### Integração com PostgreSQL (Opcional)
 
-E por último, na classe [ConfiguracaoBanco](ETL/ConfiguracoesBanco.py), é onde é feito a integração com o postgreSQL, é onde os arquivos CSV e seus dados são tranformados em tabelas no postgres
+E por último, na classe [ConfiguracaoBanco](ETL/ConfiguracoesBanco.py), é onde é feito a integração com o postgreSQL, é onde os arquivos CSV e seus dados são tranformados em tabelas no postgres, coloque seus dados como usuario e senha na linha 8 do arquivo
+[ConfiguracaoBanco](ETL/ConfiguracoesBanco.py), e na linha 140, coloque o nome do seu banco já criado no postgreSQL.
 
-### Importação dos dados no Power Bi
-
-...
-
-
-
+Se algum desses passos não forem seguidos como descritos, provavelmente vai resultar em algum erro.
 
 # Bibliotecas
 

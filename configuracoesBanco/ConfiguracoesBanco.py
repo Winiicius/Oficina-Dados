@@ -1,19 +1,50 @@
 import pandas as pd
+import psycopg2
 from sqlalchemy import create_engine, text
 
 # Definir a conexão com o PostgreSQL
 def conectar_banco(nome_banco):
     """Conectar ao banco de dados PostgreSQL usando SQLAlchemy."""
-    engine = create_engine(f'postgresql://user:password@postgres:5432/{nome_banco}')
+    engine = create_engine(f'postgresql://usuario:senha@localhost:5432/{nome_banco}')
     return engine
 
+def criar_banco(nome_banco):
+    # Estabelecer conexão sem especificar um banco de dados
+    connection = psycopg2.connect(
+        user='postgres', 
+        password='admin', 
+        host='localhost', 
+        port='5432'
+    )
+
+    connection.autocommit = True
+
+    # Criar um cursor
+    cursor = connection.cursor()
+
+    # Comando para criar o banco de dados
+    comando_sql = f"CREATE DATABASE {nome_banco};"
+
+    # Executar o comando
+    try:
+        cursor.execute(comando_sql)
+        connection.commit()
+        print(f"Banco de dados '{nome_banco}' criado com sucesso!")
+    except Exception as e:
+        print(f"Erro ao criar banco de dados: {e}")
+    finally:
+        # Fechar a conexão
+        cursor.close()
+        connection.close()
 
 # Função para enviar os dados do CSV para o banco
 def enviar_csv_para_postgres(nome_banco, arquivos):
     
+    criar_banco(nome_banco)
     # Conectar ao banco
     engine = conectar_banco(nome_banco)
 
+    # Criar a tabela caso não exista (opcional)
     criar_tabelas(engine)
 
     for arquivo in arquivos: 
@@ -22,7 +53,7 @@ def enviar_csv_para_postgres(nome_banco, arquivos):
 
         # Enviar os dados para o banco de dados usando o método to_sql do Pandas
         df.to_sql(arquivo.get("nome_tabela"), con=engine, if_exists='append', index=False)
-        print("Dados do ", arquivo.get("nome_tabela"), ".csv transformados em tabela com sucesso!")
+        print(f"Dados do CSV {arquivo.get("nome_tabela")} enviados com sucesso!")
 
 def criar_tabelas(engine):
 
@@ -92,18 +123,18 @@ def criar_tabelas(engine):
         print(f"Erro ao conectar ao banco de dados: {e}")
 
 arquivos:list = [
-    {"caminho_arquivo":"enderecos.csv",
-    "nome_tabela": "enderecos"},
-    {"caminho_arquivo":"produtos.csv",
-    "nome_tabela": "produtos"},
-    {"caminho_arquivo":"vendedores.csv",
-    "nome_tabela": "vendedores"},
+     {"caminho_arquivo":"enderecos.csv",
+     "nome_tabela": "enderecos"},
+     {"caminho_arquivo":"produtos.csv",
+     "nome_tabela": "produtos"},
+     {"caminho_arquivo":"vendedores.csv",
+     "nome_tabela": "vendedores"},
     {"caminho_arquivo":"clientes.csv",
-    "nome_tabela": "clientes"},
-    {"caminho_arquivo":"pedidos.csv",
-    "nome_tabela": "pedidos"},
-    {"caminho_arquivo":"itens_pedido.csv",
-    "nome_tabela": "itens_pedido"}
+     "nome_tabela": "clientes"},
+     {"caminho_arquivo":"pedidos.csv",
+     "nome_tabela": "pedidos"},
+     {"caminho_arquivo":"itens_pedido.csv",
+     "nome_tabela": "itens_pedido"}
 ]
 
-enviar_csv_para_postgres("mydatabase", arquivos)
+enviar_csv_para_postgres("Nome_Do_Seu_Banco", arquivos)
