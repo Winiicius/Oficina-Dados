@@ -31,11 +31,36 @@ df_enderecos = pd.read_csv(csv_enderecos)
 
 # Mostrando as linhas de um DataFrames
 
-
+# print(df_clientes)
 
 # Após análise dos dados percebi que:
 
+# print(df_vendedores.isnull().sum())
+
 # tenho clientes e vendedores com id nulos
+
+# print(len(df_vendedores))
+df_vendedores =  df_vendedores.dropna(subset=['id'])
+# print(len(df_vendedores))
+
+df_ids_nulos = df_clientes[df_clientes['id'].isnull()]
+# print(df_ids_nulos)
+
+ids_enderecos_nulos = df_ids_nulos['id_endereco']
+# print(ids_enderecos_nulos)
+
+# print(len(df_enderecos))
+df_enderecos = df_enderecos[~df_enderecos['id'].isin(ids_enderecos_nulos)]
+# print(len(df_enderecos))
+
+print(len(df_clientes))
+df_clientes = df_clientes.dropna(subset=['id'])
+print(len(df_clientes))
+
+
+
+
+
 
 # tenho cliente duplicados
 
@@ -72,4 +97,4 @@ def salvarDFs(dataframes:list):
         print("Arquivo ", dataframe.get("nome_arquivo"), " salvo com sucesso!!!")
         time.sleep(1)
 
-salvarDFs(dataframes)
+# salvarDFs(dataframes)
